@@ -15,7 +15,7 @@ def desenharLetras():
             print(letras[c],end=" ")
             c+=1;
     print()
-def renderizar():
+def renderizar(board):
     
     desenharLetras()    
     #print("")  
@@ -25,7 +25,8 @@ def renderizar():
         print(y,end="")
         
         for x in range(10):
-            print("| ",end="")
+            print("|",end="")
+            print(board[x+y*10],end="")
             
         print("|")
         separar()   
@@ -34,4 +35,3 @@ def renderizar():
         
     desenharLetras()
 
-renderizar()

@@ -1,5 +1,4 @@
 import render;
-
 posicoes=[" "]*100;
 pecasPadrao=["o","@"]
 pecasDama=["O","&"]
@@ -14,11 +13,8 @@ for i in range(100):
     else:
         if(i%2==1):
             posicoes[i]="#";
-
-
 for a in range(30):
-    print(a)
     if(posicoes[a]!="#"):
-        posicoes="o"
+        posicoes[a]="o"
 
-board.renderizar(posicoes)
+render.renderizar(posicoes)
