@@ -16,5 +16,8 @@ for i in range(100):
 for a in range(30):
     if(posicoes[a]!="#"):
         posicoes[a]="o"
-
+a=0;
+for a in range(60,100):
+        if(posicoes[a]!="#"):
+                posicoes[a]="@"
 render.renderizar(posicoes)
