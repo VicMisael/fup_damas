@@ -1,3 +1,4 @@
+#Arquivo somente para renderizar o tabuleiro, nada de mais importante aqui
 def separar():
     print("",end=" ")
     for i in range(21):
@@ -5,7 +6,6 @@ def separar():
             print("+",end="")
         else:
             print("-",end="")
-    #print("\n")
 def desenharLetras():
     letras=["A","B","C","D","E","F","G","H","I","J"]
     c=0;
@@ -23,15 +23,16 @@ def renderizar(board):
     print()   
     for y in range(10):
         print(y,end="")
-        
+        #Para cada linha desenha 10 colunas
         for x in range(10):
             print("|",end="")
             print(board[x+y*10],end="")
-            
+            #Desenhe os objetos no array board
+            #multiplicado por 10 pois são as linhas
         print("|")
         separar()   
         print() 
-       
+    #chamar print vazio toda vez que for necessario fazer uma quebra de linha
         
     desenharLetras()
 
