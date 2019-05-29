@@ -21,6 +21,8 @@ def inicializar():
                 if(posicoes[a]!="#"):
                         posicoes[a]=pecasPadrao[1];
         render.renderizar(posicoes)
+
+
 def fazerJogada(jogador,jogada):
         if(jogador=="C"):
                 print("O Jogador de cima foi o Selecionado")
@@ -29,6 +31,9 @@ def fazerJogada(jogador,jogada):
         vetJog=jogada.split("--")
         endInicial=pegarEnderecoDaTabela(vetJog[0]);
         endFinal=pegarEnderecoDaTabela(vetJog[1]);
+        if(endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1):
+                print("Posição invalida")
+                return
         print(endInicial);
         print(endFinal)
 
@@ -59,10 +64,8 @@ def pegarEnderecoDaTabela(endereco):
                 endX=8;
         elif letra=="J":
                 endX=9;
-        else:
-                print("posição invalida")
         if(endY>9):
-                print("Posição invalida")
+                endY=-1;
         end=[endX,endY]  
         return end;
 
