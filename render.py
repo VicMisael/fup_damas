@@ -8,12 +8,12 @@ def separar():
             print("-",end="")
 def desenharLetras():
     letras=["A","B","C","D","E","F","G","H","I","J"]
-    c=0;
+    c=0
     print("  ",end='')
     for i in range(20):
         if(i%2==1):
             print(letras[c],end=" ")
-            c+=1;
+            c+=1
     print()
 def renderizar(board):
     
