@@ -1,4 +1,5 @@
-#Arquivo somente para renderizar o tabuleiro, nada de mais importante aqui
+#Arquivo somente para renderizar o tabuleiro e controlar ele, nada de mais importante aqui
+import os;
 def separar():
     print("",end=" ")
     for i in range(21):
@@ -15,8 +16,9 @@ def desenharLetras():
             print(letras[c],end=" ")
             c+=1
     print()
+def limpar():
+    os.system('cls' if os.name == 'nt' else 'clear')
 def renderizar(board):
-    
     desenharLetras()    
     #print("")  
     separar()
