@@ -36,20 +36,42 @@ def fazerJogada(jogador,jogada):
                 return
         (x1,y1)=endInicial
         (x2,y2)=endFinal
-        if(getPecaAtPosicao(x1,y1)=="#" or getPecaAtPosicao(x2,y2)=="#"):
+        if getPecaAtPosicao(x1,y1)=="#" or getPecaAtPosicao(x2,y2)=="#" :
                 print("Jogada invalida")
-               
-        if(jogador=="B"):
-                if(getPecaAtPosicao(x1,y1)=="@"):        
-                        setPecaAtPosicao("@",x2,y2)
-                        setPecaAtPosicao(" ",x2,y2)
-        render.renderizar(posicoes)
-def setPecaAtPosicao(peca,x,y):
-        posicoes[x+y*10]="@"
-def getPecaAtPosicao(x,y):
-        print(posicoes[x+y*10])
-        return posicoes[x+y*10]
+        distancia=getDistancia(x1,y1,x2,y2)
+        if(distancia==-1):
+                print("movimento inválido")
+        else:
+                if(jogador=="B"):
+                        if(getPecaAtPosicao(x1,y1)=="@" and getPecaAtPosicao(x2,y2)==" "):
+                                setPecaAtPosicao("@",x2,y2)
+                                setPecaAtPosicao(" ",x1,y1)
+                        else:
+                                print("Movimento ilegal")
+                if(jogador=="C"):
+                        if(getPecaAtPosicao(x1,y1)=="o" and getPecaAtPosicao(x2,y2)==" "):
+                                setPecaAtPosicao("o",x2,y2)
+                                setPecaAtPosicao(" ",x1,y1)
+                        else:
+                                print("Movimento ilegal")
                 
+        render.renderizar(posicoes)
+
+def setPecaAtPosicao(peca,x,y):
+        posicoes[x+y*10]=peca
+def getPecaAtPosicao(x,y):
+        return posicoes[x+y*10]
+
+def getDistancia(x1,y1,x2,y2):
+      distX=((x1-x2)**2)**0.5
+      distY=((y1-y2)**2)**0.5
+      if distX==distY:
+        return distX
+      else:
+              return -1;  
+        
+
+
 
 def pegarEnderecoDaTabela(endereco):
         #Vai traduzir o endereço da coluna para numeros,para tornar o acesso ao vetor de peças mais fácil
