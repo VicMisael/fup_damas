@@ -3,10 +3,11 @@ posicoes=[" "]*100
 pecasPadrao=["o","@"]
 pecasDama=["O","&"]
 scores=[0,0]
-proximoJogador=""
+
 
 #Vai inicializar o tabuleiro e colocar as peças nas suas posições padrões
 def inicializar():
+        global posicoes
         for i in range(100):
                 if((i//10)%2==0):
                         if(i%2==0):
@@ -23,17 +24,11 @@ def inicializar():
                         posicoes[a]=pecasPadrao[1]
         render.renderizar(posicoes)
 
-def fazerJogadaJogadorAutomatico(jogada):
-        fazerJogada(proximoJogador,jogada)
 def fazerJogada(jogador,jogada):
-        if(jogador=="C"):
-                print("o próximo jogador é o de cima")
-        if(jogador=="B"):
-                print("o próximo jogador é o de baixo")
         vetJog=jogada.split("--")
         endInicial=pegarEnderecoDaTabela(vetJog[0])
         endFinal=pegarEnderecoDaTabela(vetJog[1])
-
+        proximoJogador=False;
         if(endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1):
                 print("Posição invalida")
                 return
@@ -49,11 +44,22 @@ def fazerJogada(jogador,jogada):
         else:
 
                 if(distancia==1):
-                        moverPeca(jogador,x1,y1,x2,y2)
-                        definirProximoJogador(jogador)
-                if(distancia==2):
-                        comerPeca(jogador,"N",(x1+x2)/2,(y1+y2)/2)
+                        if jogador=="B" and (getPecaAtPosicao(x1,y1)=="@" or getPecaAtPosicao(x1,y1)=="&"):
+                                moverPeca(x1,y1,x2,y2)
+                                proximoJogador=True;
+                        elif jogador=="C" and (getPecaAtPosicao(x1,y1)=="o" or getPecaAtPosicao(x1,y1)=="O"):
+                                moverPeca(x1,y1,x2,y2)
+                                proximoJogador=True;
 
+                if(distancia==2):
+                        if jogador=="B" and (getPecaAtPosicao(x1+x2/2,y1+y2)=="o" or getPecaAtPosicao(x1+x2/2,(y1+y2)/2)=="O")  :
+                                comerPeca(jogador,"N",(x1+x2)/2,(y1+y2)/2)
+                                moverPeca(x1, y1, x2, y2)
+                        elif jogador=="C" and (getPecaAtPosicao(x1+x2/2,y1+y2)=="@" or getPecaAtPosicao(x1+x2/2,(y1+y2)/2)=="&"):
+                                comerPeca(jogador, "N", (x1+x2) / 2, (y1+y2) / 2)
+                                moverPeca( x1, y1, x2, y2)
+                        else:
+                                print("jogada invalida")
                 #vai checar se alguma peça pode se tornar dama
                 for i in range(10):
                         if getPecaAtPosicao(i,9)=="o":
@@ -62,14 +68,10 @@ def fazerJogada(jogador,jogada):
                         if getPecaAtPosicao(i, 0) == "@":
                                 setPecaAtPosicao("&", i, 9)
         print(scores)
+        render.limpar()
         render.renderizar(posicoes)
+        return proximoJogador
 #Essas de baixo aq tão obviasB
-def definirProximoJogador(jogAt):
-        global proximoJogador
-        if(jogAt=="C"):
-                proximoJogador="B"
-        if(jogAt=="B"):
-               proximoJogador = 'C'
 
 def setPecaAtPosicao(peca,x,y):
         posicoes[x+y*10]=peca
@@ -78,9 +80,11 @@ def getPecaAtPosicao(x,y):
 
 def comerPeca(jogador,modo,x,y):
        if(modo=="N"):
-               setPecaAtPosicao(" ",x,y)
+               setPecaAtPosicao(" ", x, y)
                if jogador == "B":
                        scores[0] += 1;
+               if jogador == "C":
+                       scores[1]+=1;
 
 
 
@@ -92,15 +96,13 @@ def getTipoPeca(peca):
                 return "D"
         else:
                 return"E"
-def moverPeca(jogador,x1,y1,x2,y2):
-        if (jogador == "B"):
-                if (getPecaAtPosicao(x1, y1) == "@" and getPecaAtPosicao(x2, y2) == " "):
-                        setPecaAtPosicao("@", x2, y2)
-                        setPecaAtPosicao(" ", x1, y1)
-        if (jogador == "C"):
-                if (getPecaAtPosicao(x1, y1) == "o" and getPecaAtPosicao(x2, y2) == " "):
-                        setPecaAtPosicao("o", x2, y2)
-                        setPecaAtPosicao(" ", x1, y1)
+def moverPeca(x1,y1,x2,y2):
+        pecaPosIni=getPecaAtPosicao(x1,y1)
+        if(pecaPosIni=="&" or pecaPosIni=="@" or pecaPosIni=="o" or pecaPosIni=="O" ):
+                setPecaAtPosicao(pecaPosIni, x2, y2)
+                setPecaAtPosicao(" ", x1, y1)
+        else:
+                print("jogada invalida")
 
 def getDistancia(x1,y1,x2,y2):
         #vai pegar a distancia percorrida pela peça
