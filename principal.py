@@ -1,4 +1,5 @@
 import pecas
+import render
 pecas.inicializar()
 emJogo=True
 jogadorInvalido = True
@@ -22,10 +23,10 @@ while(emJogo):
 
     print("Entre com a jogada")
     jogada=input().upper()
+    render.limpar()
     if(pecas.fazerJogada(jogador,jogada)):
-        print("O jogador alterou")
-        print(jogador)
         if(jogador=="C"):
             jogador="B"
         if(jogador=="B"):
             jogador="C"
+    
