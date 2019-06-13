@@ -14,8 +14,7 @@ while(emJogo):
         if(jogador=="C" or jogador=="B"):
             jogadorInvalido=False
         else:
-            print("Jogador invalido!!")
-    print(jogador)
+            render.showJogadaInvalida("");
     if (jogador == "C"):
         print("o jogador de cima é o proximo")
     if (jogador == "B"):

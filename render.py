@@ -16,6 +16,11 @@ def desenharLetras():
             print(letras[c],end=" ")
             c+=1
     print()
+def showJogadaInvalida(mAdicional):
+    limpar()
+    vermelho="\033[1;31;40m"
+    reset=" \033[m"
+    print(vermelho+"  jogada inválida \n "+mAdicional+ reset)
 def limpar():
     os.system('cls' if os.name == 'nt' else 'clear')
 def renderizar(board):

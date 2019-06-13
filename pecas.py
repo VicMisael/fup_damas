@@ -32,26 +32,28 @@ def fazerJogada(jogador,jogada):
         endFinal=pegarEnderecoDaTabela(vetJog[1])
         proximoJogador=False;
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
-                print("Posição invalida")
+                render.showJogadaInvalida("")
                 return
         (x1,y1)=endInicial
         (x2,y2)=endFinal
         distancia = getDistancia(x1, y1, x2, y2)
 
         if getPecaAtPosicao(x1,y1)=="#" or getPecaAtPosicao(x2,y2)=="#" or getPecaAtPosicao(x1,y1)==" " :
-                print("Jogada invalida")
+                render.showJogadaInvalida("")
 
         elif(distancia==-1):
-                print("Jogada inválida")
+                render.showJogadaInvalida("")
         else:
 
                 if(distancia==1):
                         if jogador=="B" and (getPecaAtPosicao(x1,y1)=="@" or getPecaAtPosicao(x1,y1)=="&"):
-                                moverPeca(x1,y1,x2,y2)
-                                proximoJogador=True;
+                                if(checarPecasAoRedor(x1,y1,jogador)):
+                                        moverPeca(x1,y1,x2,y2)
+                                        proximoJogador=True;
                         elif jogador=="C" and (getPecaAtPosicao(x1,y1)=="o" or getPecaAtPosicao(x1,y1)=="O"):
-                                moverPeca(x1,y1,x2,y2)
-                                proximoJogador=True;
+                                if(checarPecasAoRedor(x1,y1,jogador)):
+                                        moverPeca(x1,y1,x2,y2)
+                                        proximoJogador=True;
 
                 if(distancia==2):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
@@ -62,15 +64,15 @@ def fazerJogada(jogador,jogada):
                                 comerPeca(jogador, "N", (x1+x2) // 2, (y1+y2) // 2)
                                 moverPeca( x1, y1, x2, y2)
                         else:
-                                print("jogada invalida")
+                                render.showJogadaInvalida("")
                 if(distancia>2):
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
                                 if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
                                         moverPeca(x1,y1,x2,y2)
                                 else:
-                                        print("Jogada inválida")
+                                        render.showJogadaInvalida("")
                         else:
-                                print("jogada invalida")
+                                render.showJogadaInvalida("")
 
                 #vai checar se alguma peça pode se tornar dama
                 for i in range(10):
@@ -130,9 +132,52 @@ def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
                 comerPeca(jogador,"N",pecaPosX,pecaPosY)  
                 
         return not jogadaProibida
-                                
-        
-           
+                              
+def checarPecasAoRedor(xIni,yIni,jogador):
+        #print("A ser implementada")       
+        deveComer=False;
+        xInipos=0;
+        yInipos=0;
+        if(jogador=="B"):
+                if(getPecaAtPosicao((xIni+1),(yIni+1))=="o" or getPecaAtPosicao((xIni+1),(yIni+1))=="O" ):
+                        deveComer=True;
+                        xInipos=xIni+1
+                        yInipos=yIni+1
+   
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="o" or getPecaAtPosicao(xIni+1,yIni-1)=="O" ):
+                        deveComer=True;
+                        xInipos=xIni+1
+                        yInipos=yIni-1
+            
+                if(getPecaAtPosicao(xIni-1,yIni+1)=="o" or getPecaAtPosicao(xIni-1,yIni+1)=="O" ):
+                        deveComer=True;
+                        xInipos=xIni-1
+                        yInipos=yIni+1
+                
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="o" or getPecaAtPosicao(xIni-1,yIni-1)=="O" ):
+                        deveComer=True;
+                        xInipos=xIni-1
+                        yInipos=yIni-1
+        if(jogador=="C"):
+                if(getPecaAtPosicao(xIni+1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                        deveComer=True;
+                        xInipos=xIni+1
+                        yInipos=yIni+1
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                        deveComer=True;
+                        xInipos=xIni+1
+                        yInipos=yIni-1
+                if(getPecaAtPosicao(xIni-1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                        deveComer=True;
+                        xInipos=xIni-1
+                        yInipos=yIni+1
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                        deveComer=True;
+                        xInipos=xIni-1
+                        yInipos=yIni-1
+        if(deveComer):
+                render.showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
+        return not deveComer
 def setPecaAtPosicao(peca,x,y):
         global posicoes
         posicoes[x+y*10]=peca
@@ -163,7 +208,7 @@ def moverPeca(x1,y1,x2,y2):
                 setPecaAtPosicao(pecaPosIni, x2, y2)
                 setPecaAtPosicao(" ", x1, y1)
         else:
-                print("jogada invalida")
+                render.showJogadaInvalida("")
 
 def getDistancia(x1,y1,x2,y2):
         #vai pegar a distancia percorrida pela peça
@@ -175,6 +220,29 @@ def getDistancia(x1,y1,x2,y2):
         return -1;  
         
 
+def pegarLetraTabela(num):
+        if num==0:
+                return "A"
+        elif num==1:
+                return "B"
+        elif num==2:
+                return "C"
+        elif num==3:
+                return "D"
+        elif num==4:
+                return "E"
+        elif num==5:
+                return "F"
+        elif num==6:
+                return "G"
+        elif num==7:
+                return "H"
+        elif num==8:
+                return "I"
+        elif num==9:
+                return "J"
+        else:
+                return"Erro"
 
 
 def pegarEnderecoDaTabela(endereco):
@@ -221,8 +289,9 @@ v.append(fazerJogada("C","E1--F2"))
 v.append(fazerJogada("C","F0--E1"))
 v.append(fazerJogada("B","D2--F0"))
 v.append(fazerJogada("C","C1--D2"))
-#v.append(fazerJogada("C","B2--C3"))
-#v.append(fazerJogada("C","B2--C3"))
-#v.append(fazerJogada("C","C3--B4"))
+v.append(fazerJogada("C","B2--C3"))
+v.append(fazerJogada("C","C3--B4"))
 v.append(fazerJogada("B","F0--A5"))
+v.append(fazerJogada("B","H6--G5"))
+v.append(fazerJogada("B","G5--F4"))
 print(v)
