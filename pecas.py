@@ -144,26 +144,26 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         xInipos=xIni+1
                         yInipos=yIni+1
    
-                if(getPecaAtPosicao(xIni+1,yIni-1)=="o" or getPecaAtPosicao(xIni+1,yIni-1)=="O" ):
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="o" or getPecaAtPosicao(xIni+1,yIni-1)=="O" ) and yIni>0:
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni-1
             
-                if(getPecaAtPosicao(xIni-1,yIni+1)=="o" or getPecaAtPosicao(xIni-1,yIni+1)=="O" ):
+                if(getPecaAtPosicao(xIni-1,yIni+1)=="o" or getPecaAtPosicao(xIni-1,yIni+1)=="O" ) and xIni>0:
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni+1
                 
-                if(getPecaAtPosicao(xIni-1,yIni-1)=="o" or getPecaAtPosicao(xIni-1,yIni-1)=="O" ):
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="o" or getPecaAtPosicao(xIni-1,yIni-1)=="O" ) and(xIni>0 and yIni>0):
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni-1
         if(jogador=="C"):
-                if(getPecaAtPosicao(xIni+1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                if(getPecaAtPosicao(xIni+1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" )and xIni>0:
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni+1
-                if(getPecaAtPosicao(xIni+1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" )and yIni>0:
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni-1
@@ -171,7 +171,7 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni+1
-                if(getPecaAtPosicao(xIni-1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ) and(xIni>0 and yIni>0):
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni-1
