@@ -1,6 +1,5 @@
 #Arquivo somente para renderizar o tabuleiro e controlar ele, nada de mais importante aqui
 import os;
-from colorama import Fore,Back,Style;
 def separar():
     print("",end=" ")
     for i in range(21):
@@ -17,14 +16,19 @@ def desenharLetras():
             print(letras[c],end=" ")
             c+=1
     print()
+
 def showJogadaInvalida(mAdicional):
     limpar()
-    print(Fore.RED+"  jogada inválida \n "+mAdicional)
-    print(Style.RESET_ALL)
+    FAIL = "\033[91m"
+    Reset="\033[0m"
+    print(FAIL+"  jogada inválida \n "+mAdicional+Reset)
+
 def venceu(mensagem):
     limpar();
-    print(Fore.GREEN+mensagem)
-    print(Style.RESET_ALL)
+    verde = '\033[92m'
+    Reset="\033[0m"
+    print(verde+mensagem+Reset)
+    print()
 
 def limpar():
     os.system('cls' if os.name == 'nt' else 'clear')
