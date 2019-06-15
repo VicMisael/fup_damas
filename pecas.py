@@ -1,5 +1,6 @@
 import render
 import math
+fimDoJogo=False
 posicoes=[" "]*100
 pecasPadrao=["o","@"]
 pecasDama=["O","&"]
@@ -26,6 +27,7 @@ def inicializar():
         render.renderizar(posicoes)
 
 def fazerJogada(jogador,jogada):
+        
         render.limpar()
         vetJog=jogada.split("--")
         endInicial=pegarEnderecoDaTabela(vetJog[0])
@@ -82,9 +84,17 @@ def fazerJogada(jogador,jogada):
                         if(getPecaAtPosicao(i,0)=="@"):
                                 setPecaAtPosicao("&",i,0)
        
-        print()
         render.renderizar(posicoes)
-        print("Jogado de Baixo:",scores[0],"Pontos \nJogador de cima:",scores[1],"Pontos")
+        global fimDoJogo;
+        
+        if(contarPecasJogadorDeCima()==0):
+                fimDoJogo=True;
+                render.venceu("O jogador de baixo venceu")
+        if(contarPecasJogadorDeBaixo()==0):
+                fimDoJogo=True;
+                render.venceu("O jogador de cima venceu")
+        
+        #print("Jogador de Baixo:",scores[0],"Pontos \nJogador de cima:",scores[1],"Pontos")
         return proximoJogador
 #Essas de baixo aq tão obviasB
 def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
@@ -191,8 +201,19 @@ def comerPeca(jogador,modo,x,y):
                        scores[0] += 1;
                if jogador == "C":
                        scores[1]+=1;
-
-
+def contarPecasJogadorDeCima():
+        global posicoes;
+        j=0
+        for i in range(len(posicoes)):
+                if(posicoes[i]=="o" or posicoes=="O"):
+                        j+=1;  
+        return j;     
+def contarPecasJogadorDeBaixo():
+        j=0
+        for i in range(len(posicoes)):
+                if(posicoes[i]=="@" or posicoes=="&"):
+                        j+=1;      
+        return j;      
 
 
 def getTipoPeca(peca):
@@ -276,22 +297,36 @@ def pegarEnderecoDaTabela(endereco):
         end=[endX,endY]  
         return end
 #Código pra teste
-inicializar()
-v=[]
-v.append(fazerJogada("B","B6--C5"))
-v.append(fazerJogada("C","D2--C3"))
-v.append(fazerJogada("C","C3--D4"))
-v.append(fazerJogada("B","C5--E3"))
-v.append(fazerJogada("B","E3--D2"))
-v.append(fazerJogada("C","F2--G3"))
-v.append(fazerJogada("C","G3--H4"))
-v.append(fazerJogada("C","E1--F2"))
-v.append(fazerJogada("C","F0--E1"))
-v.append(fazerJogada("B","D2--F0"))
-v.append(fazerJogada("C","C1--D2"))
-v.append(fazerJogada("C","B2--C3"))
-v.append(fazerJogada("C","C3--B4"))
-v.append(fazerJogada("B","F0--A5"))
-v.append(fazerJogada("B","H6--G5"))
-v.append(fazerJogada("B","G5--F4"))
-print(v)
+def zerarPecasCima():
+        for i in range(len(posicoes)):
+                if(posicoes[i]=="o" or posicoes=="O"):
+                        posicoes[i]=" ";
+def zerarPecasBaixo():
+        for i in range(len(posicoes)):
+                if(posicoes[i]=="@" or posicoes=="&"):
+                        posicoes[i]=" ";
+
+
+def testar():
+        inicializar()
+        v=[]
+        v.append(fazerJogada("B","B6--C5"))
+        v.append(fazerJogada("C","D2--C3"))
+        v.append(fazerJogada("C","C3--D4"))
+        v.append(fazerJogada("B","C5--E3"))
+        v.append(fazerJogada("B","E3--D2"))
+        v.append(fazerJogada("C","F2--G3"))
+        v.append(fazerJogada("C","G3--H4"))
+        v.append(fazerJogada("C","E1--F2"))
+        v.append(fazerJogada("C","F0--E1"))
+        v.append(fazerJogada("B","D2--F0"))
+        v.append(fazerJogada("C","C1--D2"))
+        v.append(fazerJogada("C","B2--C3"))
+        v.append(fazerJogada("C","C3--B4"))
+        v.append(fazerJogada("B","F0--A5"))
+        v.append(fazerJogada("B","H6--G5"))
+        v.append(fazerJogada("B","G5--F4"))
+        zerarPecasCima();
+        v.append(fazerJogada("B","F6--G5"))
+        print(v)
+testar()
