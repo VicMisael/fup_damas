@@ -5,7 +5,7 @@ posicoes=[" "]*100
 pecasPadrao=["o","@"]
 pecasDama=["O","&"]
 scores=[0,0]
-
+jogadaInvalida=False;
 
 #Vai inicializar o tabuleiro e colocar as peças nas suas posições padrões
 def inicializar():
@@ -25,6 +25,10 @@ def inicializar():
                 if(posicoes[a]!="#"):
                         posicoes[a]=pecasPadrao[1]
         render.renderizar(posicoes)
+def reiniciar():
+        posicoes=[" "]*100;
+        scores=[0,0]
+        inicializar();
 
 def fazerJogada(jogador,jogada):
         
@@ -34,29 +38,35 @@ def fazerJogada(jogador,jogada):
         endFinal=pegarEnderecoDaTabela(vetJog[1])
         proximoJogador=False;
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
-                render.showJogadaInvalida("")
+                showJogadaInvalida("")
                 return
         (x1,y1)=endInicial
         (x2,y2)=endFinal
         distancia = getDistancia(x1, y1, x2, y2)
 
         if getPecaAtPosicao(x1,y1)=="#" or getPecaAtPosicao(x2,y2)=="#" or getPecaAtPosicao(x1,y1)==" " :
-                render.showJogadaInvalida("")
+                showJogadaInvalida("")
 
         elif(distancia==-1):
-                render.showJogadaInvalida("")
+                showJogadaInvalida("")
         else:
 
                 if(distancia==1):
                         if jogador=="B" and (getPecaAtPosicao(x1,y1)=="@" or getPecaAtPosicao(x1,y1)=="&"):
-                                if(checarPecasAoRedor(x1,y1,jogador)):
-                                        moverPeca(x1,y1,x2,y2)
-                                        proximoJogador=True;
+                                if(checarPecasAoRedor(x1,y1,jogador) ):
+                                        if(y1>y2):
+                                                moverPeca(x1,y1,x2,y2)
+                                                proximoJogador=True;
+                                        else:
+                                                showJogadaInvalida("Você só pode voltar se for comendo")
                         elif jogador=="C" and (getPecaAtPosicao(x1,y1)=="o" or getPecaAtPosicao(x1,y1)=="O"):
                                 if(checarPecasAoRedor(x1,y1,jogador)):
-                                        moverPeca(x1,y1,x2,y2)
-                                        proximoJogador=True;
-
+                                        if(y1<y2):
+                                                moverPeca(x1,y1,x2,y2)
+                                                proximoJogador=True;
+                                        else:
+                                                showJogadaInvalida("Você só voltar se for comendo")
+                                
                 if(distancia==2):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
                         if jogador=="B" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O"  :
@@ -66,15 +76,15 @@ def fazerJogada(jogador,jogada):
                                 comerPeca(jogador, "N", (x1+x2) // 2, (y1+y2) // 2)
                                 moverPeca( x1, y1, x2, y2)
                         else:
-                                render.showJogadaInvalida("")
+                                showJogadaInvalida("")
                 if(distancia>2):
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
                                 if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
                                         moverPeca(x1,y1,x2,y2)
                                 else:
-                                        render.showJogadaInvalida("")
+                                        showJogadaInvalida("")
                         else:
-                                render.showJogadaInvalida("")
+                                showJogadaInvalida("")
 
                 #vai checar se alguma peça pode se tornar dama
                 for i in range(10):
@@ -97,6 +107,17 @@ def fazerJogada(jogador,jogada):
         #print("Jogador de Baixo:",scores[0],"Pontos \nJogador de cima:",scores[1],"Pontos")
         return proximoJogador
 #Essas de baixo aq tão obviasB
+def retornarValidezDaJogada():
+        global jogadaInvalida
+        aux=jogadaInvalida
+        if(aux):
+                jogadaInvalida=False;
+        return aux
+def showJogadaInvalida(mAdc):
+        global jogadaInvalida
+        jogadaInvalida=True;
+        render.showJogadaInvalida(mAdc)
+         
 def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
         subX=False
         subY=False
@@ -142,7 +163,10 @@ def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
                 comerPeca(jogador,"N",pecaPosX,pecaPosY)  
                 
         return not jogadaProibida
-                              
+                        
+def getFimDoJogo():
+        global fimDoJogo
+        return fimDoJogo
 def checarPecasAoRedor(xIni,yIni,jogador):
         #print("A ser implementada")       
         deveComer=False;
@@ -186,7 +210,7 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         xInipos=xIni-1
                         yInipos=yIni-1
         if(deveComer):
-                render.showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
+                showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
         return not deveComer
 def setPecaAtPosicao(peca,x,y):
         global posicoes
@@ -229,7 +253,7 @@ def moverPeca(x1,y1,x2,y2):
                 setPecaAtPosicao(pecaPosIni, x2, y2)
                 setPecaAtPosicao(" ", x1, y1)
         else:
-                render.showJogadaInvalida("")
+                showJogadaInvalida("")
 
 def getDistancia(x1,y1,x2,y2):
         #vai pegar a distancia percorrida pela peça
@@ -309,24 +333,8 @@ def zerarPecasBaixo():
 
 def testar():
         inicializar()
-        v=[]
-        v.append(fazerJogada("B","B6--C5"))
-        v.append(fazerJogada("C","D2--C3"))
-        v.append(fazerJogada("C","C3--D4"))
-        v.append(fazerJogada("B","C5--E3"))
-        v.append(fazerJogada("B","E3--D2"))
-        v.append(fazerJogada("C","F2--G3"))
-        v.append(fazerJogada("C","G3--H4"))
-        v.append(fazerJogada("C","E1--F2"))
-        v.append(fazerJogada("C","F0--E1"))
-        v.append(fazerJogada("B","D2--F0"))
-        v.append(fazerJogada("C","C1--D2"))
-        v.append(fazerJogada("C","B2--C3"))
-        v.append(fazerJogada("C","C3--B4"))
-        v.append(fazerJogada("B","F0--A5"))
-        v.append(fazerJogada("B","H6--G5"))
-        v.append(fazerJogada("B","G5--F4"))
-        zerarPecasCima();
-        v.append(fazerJogada("B","F6--G5"))
-        print(v)
-testar()
+        
+        fazerJogada("B","B6--C5")
+        fazerJogada("B","C5--B4")
+        fazerJogada("C","D2--C3")
+        fazerJogada("C","C3--D4")

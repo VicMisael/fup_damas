@@ -22,7 +22,10 @@ def showJogadaInvalida(mAdicional):
     FAIL = "\033[91m"
     Reset="\033[0m"
     print(FAIL+"  jogada inválida \n "+mAdicional+Reset)
-
+def mostrarErro(Msg):
+    FAIL = "\033[91m"
+    Reset="\033[0m"
+    print(FAIL+Msg+Reset)
 def venceu(mensagem):
     limpar();
     verde = '\033[92m'
