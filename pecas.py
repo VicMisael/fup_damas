@@ -39,7 +39,7 @@ def fazerJogada(jogador,jogada):
         proximoJogador=False;
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
                 showJogadaInvalida("")
-                return
+                return False
         (x1,y1)=endInicial
         (x2,y2)=endFinal
         distancia = getDistancia(x1, y1, x2, y2)
@@ -209,6 +209,8 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni-1
+        if(xInipos==9 or xInipos==0):
+                deveComer=False  
         if(deveComer):
                 showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
         return not deveComer
@@ -292,7 +294,10 @@ def pegarLetraTabela(num):
 
 def pegarEnderecoDaTabela(endereco):
         #Vai traduzir o endereço da coluna para numeros,para tornar o acesso ao vetor de peças mais fácil
-        endY=int(endereco[1])
+        if(str(endereco[1]).isdigit):
+                endY=int(endereco[1])
+        else:
+                endY=-1;
         endX=-1
         letra=endereco[0]
         letra=letra.upper()
@@ -332,6 +337,7 @@ def zerarPecasBaixo():
 
 
 def testar():
+        #Função que existe só pra fazer testes
         inicializar()
         
         fazerJogada("B","B6--C5")
