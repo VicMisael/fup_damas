@@ -173,39 +173,39 @@ def checarPecasAoRedor(xIni,yIni,jogador):
         xInipos=0;
         yInipos=0;
         if(jogador=="B"):
-                if(getPecaAtPosicao((xIni+1),(yIni+1))=="o" or getPecaAtPosicao((xIni+1),(yIni+1))=="O" ):
+                if(getPecaAtPosicao((xIni+1),(yIni+1))=="o" or getPecaAtPosicao((xIni+1),(yIni+1))=="O") and getPecaAtPosicao(xIni+2,yIni+2)==" ":
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni+1
    
-                if(getPecaAtPosicao(xIni+1,yIni-1)=="o" or getPecaAtPosicao(xIni+1,yIni-1)=="O" ) and yIni>0:
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="o" or getPecaAtPosicao(xIni+1,yIni-1)=="O" ) and yIni>0 and getPecaAtPosicao(xIni+2,yIni-2)==" ":
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni-1
             
-                if(getPecaAtPosicao(xIni-1,yIni+1)=="o" or getPecaAtPosicao(xIni-1,yIni+1)=="O" ) and xIni>0:
+                if(getPecaAtPosicao(xIni-1,yIni+1)=="o" or getPecaAtPosicao(xIni-1,yIni+1)=="O" ) and xIni>0 and getPecaAtPosicao(xIni-2,yIni+2)==" ":
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni+1
                 
-                if(getPecaAtPosicao(xIni-1,yIni-1)=="o" or getPecaAtPosicao(xIni-1,yIni-1)=="O" ) and(xIni>0 and yIni>0):
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="o" or getPecaAtPosicao(xIni-1,yIni-1)=="O" ) and(xIni>0 and yIni>0) and getPecaAtPosicao(xIni-2,yIni-2)==" ":
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni-1
         if(jogador=="C"):
-                if(getPecaAtPosicao(xIni+1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" )and xIni>0:
+                if(getPecaAtPosicao(xIni+1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" )and getPecaAtPosicao(xIni+2,yIni+2)==" ":
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni+1
-                if(getPecaAtPosicao(xIni+1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" )and yIni>0:
+                if(getPecaAtPosicao(xIni+1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni-1)=="&" )and yIni>0 and getPecaAtPosicao(xIni+2,yIni-2)==" ":
                         deveComer=True;
                         xInipos=xIni+1
                         yInipos=yIni-1
-                if(getPecaAtPosicao(xIni-1,yIni+1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ):
+                if(getPecaAtPosicao(xIni-1,yIni+1)=="@" or getPecaAtPosicao(xIni-1,yIni+1)=="&" )and xIni>0 and getPecaAtPosicao(xIni-2,yIni+2)==" ":
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni+1
-                if(getPecaAtPosicao(xIni-1,yIni-1)=="@" or getPecaAtPosicao(xIni+1,yIni+1)=="&" ) and(xIni>0 and yIni>0):
+                if(getPecaAtPosicao(xIni-1,yIni-1)=="@" or getPecaAtPosicao(xIni-1,yIni-1)=="&" ) and(xIni>0 and yIni>0)and getPecaAtPosicao(xIni-2,yIni-2)==" ":
                         deveComer=True;
                         xInipos=xIni-1
                         yInipos=yIni-1
@@ -344,3 +344,4 @@ def testar():
         fazerJogada("B","C5--B4")
         fazerJogada("C","D2--C3")
         fazerJogada("C","C3--D4")
+testar();
