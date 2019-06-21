@@ -39,6 +39,7 @@ def fazerJogada(jogador,jogada):
         except:
                 
                 render.mostrarErro("Erro ao inserir a jogada");
+                render.renderizar(posicoes);
                 return False;
         proximoJogador=False;
         render.limpar();
