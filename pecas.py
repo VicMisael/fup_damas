@@ -33,9 +33,13 @@ def reiniciar():
 def fazerJogada(jogador,jogada):
         
         render.limpar()
-        vetJog=jogada.split("--")
-        endInicial=pegarEnderecoDaTabela(vetJog[0])
-        endFinal=pegarEnderecoDaTabela(vetJog[1])
+        try:
+                vetJog=jogada.split("--")
+                endInicial=pegarEnderecoDaTabela(vetJog[0])
+                endFinal=pegarEnderecoDaTabela(vetJog[1])
+        except:
+                render.mostrarErro("Erro ao inserir a jogada");
+                return False;
         proximoJogador=False;
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
                 showJogadaInvalida("")
@@ -80,7 +84,7 @@ def fazerJogada(jogador,jogada):
                 if(distancia>2):
                         
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
-                                showJogadoInvalida(checarDiagonaisDama());
+                                showJogadaInvalida(checarDiagonaisDama());
                                 if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
                                         moverPeca(x1,y1,x2,y2)
                                 else:
@@ -122,7 +126,7 @@ def showJogadaInvalida(mAdc):
 def checarDiagonaisDama(x1,y1,Jogador):
         xAux=x1
         yAux=y1
-        nPecasComiveis=0
+        npecascomiveis=0
         if(Jogador=="B"):
                 while(not(xAux==0 or yAux==0)):
                         if(getPecaAtPosicao(xAux,yAux)=="o" or getPecaAtPosicao(xAux,yAux)=="O"):
@@ -394,5 +398,5 @@ def testar():
         fazerJogada("B","B6--C5")
         fazerJogada("B","C5--B4")
         fazerJogada("C","D2--C3")
-        fazerJogada("C","C3--D4")
-#testar();
+        fazerJogada("C","C3-D4")
+testar();
