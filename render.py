@@ -18,7 +18,7 @@ def desenharLetras():
     print()
 
 def showJogadaInvalida(mAdicional):
-    limpar()
+    #limpar()
     FAIL = "\033[91m"
     Reset="\033[0m"
     print(FAIL+"  jogada inválida \n "+mAdicional+Reset)

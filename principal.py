@@ -31,28 +31,43 @@ else:
 
 if(modoDeJogo==OFFLINE):
     i=0
+    print(jogadas)
     while(i<len(jogadas) and emJogo):
-
+        if(len(jogadas[i].strip())==0):
+            emJogo=False
         if(jogadorInvalido):
             jogador = jogadas[0]
             if(not(jogador=="C" or jogador=="B")):
-                jogadorInvalido=False
+                jogadorInvalido=True
                 emJogo=False
                 render.mostrarErro("Primeira linha invalida")
-        if(i!=0):
-            jogada=jogadas[i]
+            else:
+                jogadorInvalido=False
+        if(i>0):
+            
             render.limpar()
+            jogada=jogadas[i]
+            if (jogador == "C"):
+                print("o jogador de cima é o proximo")
+            if (jogador == "B"):
+                print("o jogador de baixo é o proximo")
+            
             if(pecas.fazerJogada(jogador,jogada)):
                 if(jogador=="C"):
                     jogador="B"
-                if(jogador=="B"):
+                elif(jogador=="B"):
                     jogador="C"
+           
             if(pecas.retornarValidezDaJogada()):
-                render.showJogadaInvalida("Jogada invalida na linha"+str(i+1))
+                render.showJogadaInvalida("Jogada invalida "+jogada+" Na linha "+str(i+1))
+            if(pecas.getFimDoJogo()):
+               
+                emJogo=False;
         i+=1
+    print("O jogador de baixo comeu "+str(pecas.pegarScore()[0])+" Peças \ne o de cima comeu "+str(pecas.pegarScore()[1])+" Peças")
 if(modoDeJogo==CONTRAJOGADOR):
     while(emJogo):
-
+    
         while(jogadorInvalido):
             print("Entre com o jogador")
             jogador = input().upper()

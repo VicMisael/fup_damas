@@ -32,16 +32,16 @@ def reiniciar():
 
 def fazerJogada(jogador,jogada):
         
-        
         try:
                 vetJog=jogada.split("--")
                 endInicial=pegarEnderecoDaTabela(vetJog[0])
                 endFinal=pegarEnderecoDaTabela(vetJog[1])
         except:
+                
                 render.mostrarErro("Erro ao inserir a jogada");
                 return False;
         proximoJogador=False;
-        render.limpar()
+        render.limpar();
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
                 showJogadaInvalida("")
                 return False
@@ -71,13 +71,15 @@ def fazerJogada(jogador,jogada):
                                                 proximoJogador=True;
                                         else:
                                                 showJogadaInvalida("Você só voltar se for comendo")
+                        else:
+                                showJogadaInvalida("")
                                 
                 if(distancia==2):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
                         if jogador=="B" and ((getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O") and getPecaAtPosicao(x2,y2)==" "  :
                                 comerPeca(jogador,"N",(x1+x2)//2,(y1+y2)//2)
                                 moverPeca(x1, y1, x2, y2)
-                        elif jogador=="C" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="@" or getPecaAtPosicao((x1+x2)/2,(y1+y2)//2)=="&") and getPecaAtPosicao(x2,y2)==" ":
+                        elif jogador=="C" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="@" or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="&") and getPecaAtPosicao(x2,y2)==" ":
                                 comerPeca(jogador, "N", (x1+x2) // 2, (y1+y2) // 2)
                                 moverPeca( x1, y1, x2, y2)
                         else:
@@ -113,13 +115,10 @@ def fazerJogada(jogador,jogada):
         
         #print("Jogador de Baixo:",scores[0],"Pontos \nJogador de cima:",scores[1],"Pontos")
         return proximoJogador
-#Essas de baixo aq tão obviasB
+#Essas de baixo aq tão obviasBs
 def retornarValidezDaJogada():
         global jogadaInvalida
-        aux=jogadaInvalida
-        if(aux):
-                jogadaInvalida=False;
-        return aux
+        return jogadaInvalida
 def showJogadaInvalida(mAdc):
         global jogadaInvalida
         jogadaInvalida=True;
@@ -350,6 +349,7 @@ def pegarLetraTabela(num):
 
 def pegarEnderecoDaTabela(endereco):
         #Vai traduzir o endereço da coluna para numeros,para tornar o acesso ao vetor de peças mais fácil
+        #print(endereco)
         if(str(endereco[1]).isdigit):
                 endY=int(endereco[1])
         else:
@@ -390,8 +390,13 @@ def zerarPecasBaixo():
         for i in range(len(posicoes)):
                 if(posicoes[i]=="@" or posicoes=="&"):
                         posicoes[i]=" ";
-
-
+def pegarScore():
+        global scores;
+        return scores;
+def testeLimparCima():
+        for i in range(len(posicoes)):
+                if(posicoes[i]=="O" or posicoes[i]=="o"):
+                        posicoes[i]==" "
 def testar():
         #Função que existe só pra fazer testes
         inicializar()
