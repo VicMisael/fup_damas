@@ -32,7 +32,7 @@ def reiniciar():
 
 def fazerJogada(jogador,jogada):
         
-        render.limpar()
+        
         try:
                 vetJog=jogada.split("--")
                 endInicial=pegarEnderecoDaTabela(vetJog[0])
@@ -41,6 +41,7 @@ def fazerJogada(jogador,jogada):
                 render.mostrarErro("Erro ao inserir a jogada");
                 return False;
         proximoJogador=False;
+        render.limpar()
         if endInicial[0]==-1 or endInicial[1]==-1  or endFinal[0]==-1 or endFinal[1]==-1:
                 showJogadaInvalida("")
                 return False
@@ -399,4 +400,3 @@ def testar():
         fazerJogada("B","C5--B4")
         fazerJogada("C","D2--C3")
         fazerJogada("C","C3-D4")
-testar();
