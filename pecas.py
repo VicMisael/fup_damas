@@ -69,16 +69,18 @@ def fazerJogada(jogador,jogada):
                                 
                 if(distancia==2):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
-                        if jogador=="B" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O"  :
+                        if jogador=="B" and ((getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O") and getPecaAtPosicao(x2,y2)==" "  :
                                 comerPeca(jogador,"N",(x1+x2)//2,(y1+y2)//2)
                                 moverPeca(x1, y1, x2, y2)
-                        elif jogador=="C" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="@" or getPecaAtPosicao((x1+x2)/2,(y1+y2)//2)=="&"):
+                        elif jogador=="C" and (getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="@" or getPecaAtPosicao((x1+x2)/2,(y1+y2)//2)=="&") and getPecaAtPosicao(x2,y2)==" ":
                                 comerPeca(jogador, "N", (x1+x2) // 2, (y1+y2) // 2)
                                 moverPeca( x1, y1, x2, y2)
                         else:
-                                showJogadaInvalida("")
+                                showJogadaInvalida("Não é possível comer dessa maneira")
                 if(distancia>2):
+                        
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
+                                showJogadoInvalida(checarDiagonaisDama());
                                 if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
                                         moverPeca(x1,y1,x2,y2)
                                 else:
@@ -117,7 +119,54 @@ def showJogadaInvalida(mAdc):
         global jogadaInvalida
         jogadaInvalida=True;
         render.showJogadaInvalida(mAdc)
-         
+def checarDiagonaisDama(x1,y1,Jogador):
+        xAux=x1
+        yAux=y1
+        nPecasComiveis=0
+        if(Jogador=="B"):
+                while(not(xAux==0 or yAux==0)):
+                        if(getPecaAtPosicao(xAux,yAux)=="o" or getPecaAtPosicao(xAux,yAux)=="O"):
+                                npecascomiveis+=1;
+                        xAux-=1
+                        yAux-=1
+                while(not(xAux==9 or yAux==9)):
+                        if(getPecaAtPosicao(xAux,yAux)=="o" or getPecaAtPosicao(xAux,yAux)=="O"):
+                                npecascomiveis+=1;
+                        xAux+=1;
+                        yAux+=1;
+                while(not(xAux==9 or yAux==0)):
+                        if(getPecaAtPosicao(xAux,yAux)=="o" or getPecaAtPosicao(xAux,yAux)=="O"):
+                                npecascomiveis+=1;
+                        xAux+=1
+                        yAux-=1
+                while(not(xAux==0 or yAux==9)):
+                        if(getPecaAtPosicao(xAux,yAux)=="o" or getPecaAtPosicao(xAux,yAux)=="O"):
+                                npecascomiveis+=1;
+                        xAux-=1
+                        yAux+=1
+        if(Jogador=="C"):
+                while(not(xAux==0 or yAux==0)):
+                        if(getPecaAtPosicao(xAux,yAux)=="@" or getPecaAtPosicao(xAux,yAux)=="&"):
+                                npecascomiveis+=1;
+                        xAux-=1
+                        yAux-=1
+                while(not(xAux==9 or yAux==9)):
+                        if(getPecaAtPosicao(xAux,yAux)=="@" or getPecaAtPosicao(xAux,yAux)=="&"):
+                                npecascomiveis+=1;
+                        xAux+=1;
+                        yAux+=1;
+                while(not(xAux==9 or yAux==0)):
+                        if(getPecaAtPosicao(xAux,yAux)=="@" or getPecaAtPosicao(xAux,yAux)=="&"):
+                                npecascomiveis+=1;
+                        xAux+=1
+                        yAux-=1
+                while(not(xAux==0 or yAux==9)):
+                        if(getPecaAtPosicao(xAux,yAux)=="@" or getPecaAtPosicao(xAux,yAux)=="&"):
+                                npecascomiveis+=1;
+                        xAux-=1
+                        yAux+=1
+        return npecascomiveis
+
 def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
         subX=False
         subY=False
@@ -218,8 +267,10 @@ def setPecaAtPosicao(peca,x,y):
         global posicoes
         posicoes[x+y*10]=peca
 def getPecaAtPosicao(x,y):
-        return posicoes[x+y*10]
-
+        if(not (x>9 or y>9)):
+                return posicoes[x+y*10]
+        else:
+                return " "
 def comerPeca(jogador,modo,x,y):
        if(modo=="N"):
                setPecaAtPosicao(" ", x, y)
@@ -344,4 +395,4 @@ def testar():
         fazerJogada("B","C5--B4")
         fazerJogada("C","D2--C3")
         fazerJogada("C","C3--D4")
-testar();
+#testar();
