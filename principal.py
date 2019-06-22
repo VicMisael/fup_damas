@@ -1,3 +1,7 @@
+#Membros
+#Laura Maria De Alencar Leal Petrola 471913 
+#Victor Misael Brito Fenelon Carneiro 472853
+#josé éric moraes de freitas 472286 
 import pecas
 import render
 import sys

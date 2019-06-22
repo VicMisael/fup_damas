@@ -34,6 +34,7 @@ def venceu(mensagem):
     print()
 
 def limpar():
+    print("")
     os.system('cls' if os.name == 'nt' else 'clear')
 def renderizar(board):
     desenharLetras()    

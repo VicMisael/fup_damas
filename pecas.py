@@ -60,7 +60,17 @@ def fazerJogada(jogador,jogada):
 
                 if(distancia==1):
                         if jogador=="B" and (getPecaAtPosicao(x1,y1)=="@" or getPecaAtPosicao(x1,y1)=="&"):
-                                if(checarPecasAoRedor(x1,y1,jogador) ):
+                                podeJogar=True
+                                for y in range(10):
+                                        for x in range(10):
+                                                podeJogar=True
+                                                if(jogador=="C" and (getPecaAtPosicao(x,y)=="o" or getPecaAtPosicao(x,y)=="O")):
+                                                        if(checarPecasAoRedor(x,y,jogador)):
+                                                                podeJogar=False;
+                                                if(jogador=="B" and (getPecaAtPosicao(x,y)=="@" or getPecaAtPosicao(x,y)=="&")):
+                                                        if(checarPecasAoRedor(x,y,jogador)):
+                                                                podeJogar=False;
+                                if(checarPecasAoRedor(x1,y1,jogador) and podeJogar):
                                         if(y1>y2):
                                                 moverPeca(x1,y1,x2,y2)
                                                 proximoJogador=True;
