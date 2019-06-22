@@ -75,7 +75,7 @@ def fazerJogada(jogador,jogada):
                         else:
                                 showJogadaInvalida("")
                                 
-                if(distancia==2):
+                if(distancia==2 and (getPecaAtPosicao(x1,y1)!="O" or getPecaAtPosicao(x1,y1)!="&")):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
                         if jogador=="B" and ((getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O") and getPecaAtPosicao(x2,y2)==" "  :
                                 comerPeca(jogador,"N",(x1+x2)//2,(y1+y2)//2)
@@ -85,10 +85,10 @@ def fazerJogada(jogador,jogada):
                                 moverPeca( x1, y1, x2, y2)
                         else:
                                 showJogadaInvalida("Não é possível comer dessa maneira")
-                if(distancia>2):
+                if(distancia>=2):
                         
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
-                                showJogadaInvalida(checarDiagonaisDama());
+                                showJogadaInvalida(checarDiagonaisDama(x1,y1,jogador));
                                 if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
                                         moverPeca(x1,y1,x2,y2)
                                 else:
@@ -224,8 +224,8 @@ def getFimDoJogo():
 def checarPecasAoRedor(xIni,yIni,jogador):
         #print("A ser implementada")       
         deveComer=False;
-        xInipos=0;
-        yInipos=0;
+        xInipos=-1;
+        yInipos=-1;
         if(jogador=="B"):
                 if(getPecaAtPosicao((xIni+1),(yIni+1))=="o" or getPecaAtPosicao((xIni+1),(yIni+1))=="O") and getPecaAtPosicao(xIni+2,yIni+2)==" ":
                         deveComer=True;
@@ -265,6 +265,8 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         yInipos=yIni-1
         if(xInipos==9 or xInipos==0):
                 deveComer=False  
+        print(xInipos)
+        print(yInipos)
         if(deveComer):
                 showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
         return not deveComer
@@ -402,7 +404,9 @@ def testar():
         #Função que existe só pra fazer testes
         inicializar()
         
+        fazerJogada("B","J6--I5")
+        fazerJogada("C","J2--I3")
+        fazerJogada("B","I5--J4")
+        fazerJogada("C","H2--G3")
         fazerJogada("B","B6--C5")
-        fazerJogada("B","C5--B4")
-        fazerJogada("C","D2--C3")
-        fazerJogada("C","C3-D4")
+#testar();
