@@ -21,7 +21,7 @@ def inicializar():
                 if(posicoes[a]!="#"):
                         posicoes[a]=pecasPadrao[0]
         a=0
-        for a in range(60,100):
+        for a in range(70,100):
                 if(posicoes[a]!="#"):
                         posicoes[a]=pecasPadrao[1]
         render.renderizar(posicoes)
