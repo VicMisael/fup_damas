@@ -6,7 +6,7 @@ pecasPadrao=["o","@"]
 pecasDama=["O","&"]
 scores=[0,0]
 jogadaInvalida=False;
-
+proximoJogador=False;
 #Vai inicializar o tabuleiro e colocar as peças nas suas posições padrões
 def inicializar():
         global posicoes
@@ -31,7 +31,7 @@ def reiniciar():
         inicializar();
 
 def fazerJogada(jogador,jogada):
-        
+        global proximoJogador
         try:
                 vetJog=jogada.split("--")
                 endInicial=pegarEnderecoDaTabela(vetJog[0])
@@ -51,10 +51,11 @@ def fazerJogada(jogador,jogada):
         distancia = getDistancia(x1, y1, x2, y2)
 
         if getPecaAtPosicao(x1,y1)=="#" or getPecaAtPosicao(x2,y2)=="#" or getPecaAtPosicao(x1,y1)==" " :
-                showJogadaInvalida("")
-
+                showJogadaInvalida("Não é possível mover uma peça vazia ou mover para ou de uma divisoria do tabuleiro ")
+                render.renderizar(posicoes);
+                return False
         elif(distancia==-1):
-                showJogadaInvalida("")
+                showJogadaInvalida("Movimentos somente em diagonais")
         else:
 
                 if(distancia==1):
@@ -73,9 +74,9 @@ def fazerJogada(jogador,jogada):
                                         else:
                                                 showJogadaInvalida("Você só voltar se for comendo")
                         else:
-                                showJogadaInvalida("")
+                                showJogadaInvalida("Você só pode mover a peça do seu jogador")
                                 
-                if(distancia==2 and (getPecaAtPosicao(x1,y1)!="O" or getPecaAtPosicao(x1,y1)!="&")):
+                if(distancia==2 and not (getPecaAtPosicao(x1,y1)=="O" or getPecaAtPosicao(x1,y1)=="&")):
                         #Como pra comer uma peça a distancia tem de ser 2,vai checar a peça do meio e comer e contar o placar
                         if jogador=="B" and ((getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="o") or getPecaAtPosicao((x1+x2)//2,(y1+y2)//2)=="O") and getPecaAtPosicao(x2,y2)==" "  :
                                 comerPeca(jogador,"N",(x1+x2)//2,(y1+y2)//2)
@@ -85,21 +86,24 @@ def fazerJogada(jogador,jogada):
                                 moverPeca( x1, y1, x2, y2)
                         else:
                                 showJogadaInvalida("Não é possível comer dessa maneira")
-                if(distancia>=2):
+                elif(distancia>=2):
                         
                         if(getPecaAtPosicao(x1,y1)=="&") or (getPecaAtPosicao(x1,y1)=="O"):
-                                showJogadaInvalida(checarDiagonaisDama(x1,y1,jogador));
-                                if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
-                                        moverPeca(x1,y1,x2,y2)
+                               # showJogadaInvalida(checarDiagonaisDama(x1,y1,jogador));
+                                if((jogador=="C" and getPecaAtPosicao(x1,y1)=="O") or (jogador=="B" and getPecaAtPosicao(x1,y1)=="&")):
+                                        if(checarPecasEComerComDamas(x1,y1,x2,y2,jogador)):
+                                                moverPeca(x1,y1,x2,y2)
+                                        else:
+                                                showJogadaInvalida("Não é possivel comer mais de uma peça com damas")
                                 else:
-                                        showJogadaInvalida("")
+                                        showJogadaInvalida("Você não pode jogar as peças de seu adversário")
                         else:
-                                showJogadaInvalida("")
+                                showJogadaInvalida("Só se move mais de duas casas as damas")
 
                 #vai checar se alguma peça pode se tornar dama
                 for i in range(10):
                         if(getPecaAtPosicao(i,9)=="o"):
-                                setPecaAtPosicao("&",i,0)
+                                setPecaAtPosicao("O",i,9)
                 for i in range(10):
                         if(getPecaAtPosicao(i,0)=="@"):
                                 setPecaAtPosicao("&",i,0)
@@ -205,17 +209,20 @@ def checarPecasEComerComDamas(x1,y1,x2,y2,jogador):
                                 npecascomiveis+=1;
                                 if(pecaPosX==None and pecaPosY==None):
                                         pecaPosX=xAux
-                                        pecaPosY=yAux
-                                
+                                        pecaPosY=yAux                        
         
         
         
         if(npecascomiveis>1):
                
                 jogadaProibida=True
+        elif(npecascomiveis==1):
+                comerPeca(jogador,"N",pecaPosX,pecaPosY)
+                global proximoJogador
+                proximoJogador=False
         else:
-                comerPeca(jogador,"N",pecaPosX,pecaPosY)  
-                
+                proximoJogador=True;
+
         return not jogadaProibida
                         
 def getFimDoJogo():
@@ -265,8 +272,7 @@ def checarPecasAoRedor(xIni,yIni,jogador):
                         yInipos=yIni-1
         if(xInipos==9 or xInipos==0):
                 deveComer=False  
-        print(xInipos)
-        print(yInipos)
+
         if(deveComer):
                 showJogadaInvalida("Você Deve comer a peça na posição "+pegarLetraTabela(xInipos)+","+str(yInipos))
         return not deveComer
@@ -407,6 +413,7 @@ def testar():
         fazerJogada("B","J6--I5")
         fazerJogada("C","J2--I3")
         fazerJogada("B","I5--J4")
+        
         fazerJogada("C","H2--G3")
         fazerJogada("B","B6--C5")
 #testar();

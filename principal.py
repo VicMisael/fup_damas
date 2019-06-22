@@ -18,7 +18,7 @@ if(len(v)>1):
     try:
         if(file[1]=="txt"):
            dados=open(txt,"r",encoding="utf-8")
-           jogadas=dados.read()
+           jogadas=dados.read().upper();
            modoDeJogo=OFFLINE
            jogadas=jogadas.split("\n")               
     except:
@@ -45,8 +45,8 @@ if(modoDeJogo==OFFLINE):
                 jogadorInvalido=False
         if(i>0):
             
-            render.limpar()
-            jogada=jogadas[i]
+            #render.limpar()
+            jogada=jogadas[i];
             if (jogador == "C"):
                 print("o jogador de cima é o proximo")
             if (jogador == "B"):
@@ -59,7 +59,7 @@ if(modoDeJogo==OFFLINE):
                     jogador="C"
            
             if(pecas.retornarValidezDaJogada()):
-                render.showJogadaInvalida("Jogada invalida "+jogada+" Na linha "+str(i+1))
+                render.mostrarErro("A jogada "+jogada+" Na linha "+str(i+1)+"é inválida")
             if(pecas.getFimDoJogo()):
                
                 emJogo=False;
